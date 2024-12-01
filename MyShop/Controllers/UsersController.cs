@@ -22,16 +22,16 @@ namespace MyShop.Controllers
 
         //GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<string>> Get()
         {
             return new string[] { " ", " " };
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<User> Get(int id) { 
+        public async Task<ActionResult<User>> Get(int id) { 
 
-        User foundUser = UserService.GetUserById(id);
+        User foundUser =await  UserService.GetUserById(id);
         if (foundUser == null)
             return  NoContent();
         else 
@@ -42,10 +42,10 @@ namespace MyShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult Post([FromBody] User user)
+        public async Task<ActionResult> Post([FromBody] User user)
         {
 
-          User newUser = UserService.AddUser(user);
+          User newUser = await UserService.AddUser(user);
             if(newUser!=null)
             return Ok(newUser);
             else
@@ -53,10 +53,10 @@ namespace MyShop.Controllers
         }
 
         [HttpPost("password")]
-        public IActionResult CheckPassword([FromBody] string password)
+        public async Task<IActionResult> CheckPassword([FromBody] string password)
         {
 
-          int Score = UserService.CheckPassword(password);
+          int Score =  UserService.CheckPassword(password);
           return  (Score < 3)?
                  BadRequest(Score):
             Ok(Score);
@@ -64,21 +64,20 @@ namespace MyShop.Controllers
 
 
         [HttpPost("login")]
-        public ActionResult<User> LogIn([FromQuery] string userName, string password)
+        public async Task<ActionResult<User>> LogIn([FromQuery] string userName, string password)
         {
-            User userLogin = UserService.LogIn(userName, password);
+            User userLogin =await UserService.LogIn(userName, password);
             if (userLogin == null)
                 return NoContent();
-            else
             return Ok(userLogin);
          
            
         }
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User userToUpdate)
+        public async Task Put(int id, [FromBody] User userToUpdate)
         {
-            UserService.UpdateUser(id, userToUpdate); 
+           await UserService.UpdateUser(id, userToUpdate); 
 
         }
 
