@@ -1,18 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Entity
+namespace Entity;
+
+public partial class User
 {
-    public class User
-    {
-        public int UserId { get; set; }
-        [Required]
-        [EmailAddress]
-        public string UserName { get; set; }
-        [StringLength(10, ErrorMessage = "The name is limited to 10 letters.")]
-        public string firstName { get; set; }
-        [StringLength(20, ErrorMessage = "The name is limited to 20 letters.")]
-        public string LastName { get; set; }
-        [Required]
-        public string Password { get; set; }
-    }
+    public int UserId { get; set; }
+
+    public string UserName { get; set; } = null!;
+    [StringLength(10, ErrorMessage = "The name is limited to 10 letters.")]
+    public string? FirstName { get; set; }
+    [StringLength(20, ErrorMessage = "The name is limited to 20 letters.")]
+    public string? LastName { get; set; }
+
+    public string? Password { get; set; }
 }

@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using MyShop.Models;
 using Repository;
 using service;
 
@@ -8,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddDbContext<ApiOrmContext>(options=>options.UseSqlServer(
+"Server=SRV2\\PUPILS;Database=api_orm;Trusted_Connection=True;TrustServerCertificate=True"));
 
 var app = builder.Build();
 
