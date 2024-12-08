@@ -13,20 +13,20 @@ namespace Repository
             _ApiOrmContext = ApiOrmContext;
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<Users> GetUserById(int id)
         {
             return await _ApiOrmContext.Users.FindAsync(id);
 
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<Users> AddUser(Users user)
         {
             await _ApiOrmContext.Users.AddAsync(user);
             await _ApiOrmContext.SaveChangesAsync();
             return user;
 
         }
-        public async Task<User> UpdateUser(int id, User userToUpdate)
+        public async Task<Users> UpdateUser(int id, Users userToUpdate)
         {
             userToUpdate.UserId = id;
             _ApiOrmContext.Users.Update(userToUpdate);
@@ -35,7 +35,7 @@ namespace Repository
 
         }
 
-        public async Task<User> LogIn(string userName, string password)
+        public async Task<Users> LogIn(string userName, string password)
         {
            return await _ApiOrmContext.Users.FirstOrDefaultAsync((user=> user.UserName== userName &&user.Password== password));
 
