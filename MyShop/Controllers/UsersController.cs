@@ -29,9 +29,9 @@ namespace MyShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> Get(int id) { 
+        public async Task<ActionResult<User>> Get(int id) { 
 
-        Users foundUser =await  UserService.GetUserById(id);
+        User foundUser =await  UserService.GetUserById(id);
         if (foundUser == null)
             return  NoContent();
         else 
@@ -42,10 +42,10 @@ namespace MyShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Users user)
+        public async Task<ActionResult> Post([FromBody] User user)
         {
 
-          Users newUser = await UserService.AddUser(user);
+          User newUser = await UserService.AddUser(user);
             if(newUser!=null)
             return Ok(newUser);
             else
@@ -64,9 +64,9 @@ namespace MyShop.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult<Users>> LogIn([FromQuery] string userName, string password)
+        public async Task<ActionResult<User>> LogIn([FromQuery] string userName, string password)
         {
-            Users userLogin =await UserService.LogIn(userName, password);
+            User userLogin =await UserService.LogIn(userName, password);
             if (userLogin == null)
                 return NoContent();
             return Ok(userLogin);
@@ -75,7 +75,7 @@ namespace MyShop.Controllers
         }
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] Users userToUpdate)
+        public async Task Put(int id, [FromBody] User userToUpdate)
         {
            await UserService.UpdateUser(id, userToUpdate); 
 

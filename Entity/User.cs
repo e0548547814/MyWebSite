@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entity;
 
-public partial class Users
+public partial class User
 {
     public int UserId { get; set; }
 

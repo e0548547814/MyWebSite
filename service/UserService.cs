@@ -13,13 +13,13 @@ namespace service
             userRepository = UserRepository;
         }
 
-        public async Task<Users> GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
             return await userRepository.GetUserById(id);
 
         }
 
-        public async Task<Users> AddUser(Users user)
+        public async Task<User> AddUser(User user)
         {
             if (CheckPassword(user.Password) > 2)
                 return await userRepository.AddUser(user);
@@ -30,7 +30,7 @@ namespace service
 
 
         }
-        public async Task UpdateUser(int id, Users userToUpdate)
+        public async Task UpdateUser(int id, User userToUpdate)
         {
             if (CheckPassword(userToUpdate.Password) > 2)
                 await userRepository.UpdateUser(id, userToUpdate);
@@ -38,7 +38,7 @@ namespace service
 
         }
 
-        public async Task<Users> LogIn(string userName, string password)
+        public async Task<User> LogIn(string userName, string password)
         {
             return await userRepository.LogIn(userName, password);
         }
