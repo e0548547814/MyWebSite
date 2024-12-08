@@ -20,12 +20,6 @@ namespace MyShop.Controllers
             UserService = userService;
         }
 
-        //GET: api/<UsersController>
-        [HttpGet]
-        public async Task<IEnumerable<string>> Get()
-        {
-            return new string[] { " ", " " };
-        }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
@@ -42,7 +36,7 @@ namespace MyShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] User user)
+        public async Task<ActionResult> Register([FromBody] User user)
         {
 
           User newUser = await UserService.AddUser(user);
@@ -81,10 +75,6 @@ namespace MyShop.Controllers
 
         }
 
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+
     }
 }

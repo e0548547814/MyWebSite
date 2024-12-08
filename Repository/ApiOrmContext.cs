@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
-namespace MyShop.Models;
+using Entity;
+namespace Repository;
 
 public partial class ApiOrmContext : DbContext
 {
