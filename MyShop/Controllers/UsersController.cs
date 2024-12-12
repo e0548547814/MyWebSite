@@ -2,6 +2,7 @@
 using service;
 using System.Text.Json;
 using Entity;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,6 +16,7 @@ namespace MyShop.Controllers
     {
 
         IUserService UserService;
+        IMapper i_mapper;
         public UsersController(IUserService userService)
         {
             UserService = userService;
