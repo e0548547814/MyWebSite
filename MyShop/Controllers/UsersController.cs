@@ -3,6 +3,7 @@ using service;
 using System.Text.Json;
 using Entity;
 using AutoMapper;
+using dto;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,39 +17,45 @@ namespace MyShop.Controllers
     {
 
         IUserService UserService;
-        IMapper i_mapper;
-        public UsersController(IUserService userService)
+        IMapper _mapper;
+        public UsersController(IUserService userService, IMapper mapper)
         {
             UserService = userService;
+            mapper = _mapper;
         }
 
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id) { 
+        public async Task<ActionResult<RegisterUserDTO>> Get(int id) {
 
-        User foundUser =await  UserService.GetUserById(id);
-        if (foundUser == null)
+            User user = await UserService.GetUserById(id);
+            RegisterUserDTO userDTO = _mapper.Map<User, RegisterUserDTO>(user);
+
+            if (userDTO == null)
             return  NoContent();
         else 
 
-        return Ok(foundUser);
+        return Ok(userDTO);
 
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] User user)
+        public async Task<ActionResult<userDTO>> Register([FromBody] RegisterUserDTO user)
         {
 
-          User newUser = await UserService.AddUser(user);
-            if(newUser!=null)
-            return Ok(newUser);
-            else
-                return Unauthorized();
-        }
+            User newUser = _mapper.Map<RegisterUserDTO, User>(user);
+            User userDTO = await UserService.AddUser(newUser);
 
-        [HttpPost("password")]
+            userDTO newUserDTO = _mapper.Map<User, userDTO>(userDTO);
+            if (newUserDTO != null)
+                return CreatedAtAction(nameof(Get), new { id = user.UserName }, newUserDTO);
+            else
+                return BadRequest(newUserDTO);
+
+        }
+            [HttpPost("password")]
         public async Task<IActionResult> CheckPassword([FromBody] string password)
         {
 
@@ -60,21 +67,23 @@ namespace MyShop.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> LogIn([FromQuery] string userName, string password)
+        public async Task<ActionResult<userDTO>> LogIn([FromQuery] string userName,
+            string password)
         {
             User userLogin =await UserService.LogIn(userName, password);
-            if (userLogin == null)
+            userDTO userDTO = _mapper.Map<User, userDTO>(userLogin);
+            if (userDTO == null)
                 return NoContent();
-            return Ok(userLogin);
+            return Ok(userDTO);
          
            
         }
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] User userToUpdate)
+        public async Task Put(int id, [FromBody] userDTO value)
         {
-           await UserService.UpdateUser(id, userToUpdate); 
-
+            User user = _mapper.Map<userDTO, User>(value);
+            await UserService.UpdateUser(id, user);
         }
 
 

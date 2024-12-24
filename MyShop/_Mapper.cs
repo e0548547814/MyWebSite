@@ -7,7 +7,15 @@ namespace MyShop
     {
         public _Mapper()
         {
-          CreateMap<User, userDTO>();
+            CreateMap<User, userDTO>();
+            CreateMap<RegisterUserDTO, User>();
+            CreateMap<User, RegisterUserDTO>();
+            CreateMap<Product, productDTO>();
+            CreateMap<Category, categoryDTO>();
+            CreateMap<Order, orderDTO>();
+            CreateMap<addOrderDTO, Order>();
+            CreateMap<orderItemsDTO, OrderItem>();
+            CreateMap<OrderItem, orderItemsDTO>();
         }
     }
 }

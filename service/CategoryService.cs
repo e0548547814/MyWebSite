@@ -11,15 +11,17 @@ namespace service
     public class CategoryService : ICategoryService
     {
 
-        ICategoryRepository categoryRepository;
-
-
+        ICategoryRepository _categoryRepository;
+        public CategoryService(ICategoryRepository categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+        }
 
         public async Task<List<Category>> GetAllCategories()
         {
-            return await categoryRepository.GetAllCategories();
+            return await _categoryRepository.GetAllCategories();
         }
-
     }
 }
+
 

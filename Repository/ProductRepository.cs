@@ -17,17 +17,22 @@ namespace Repository
         {
             _ApiOrmContext = ApiOrmContext;
         }
-        public async Task<Product> GetProductById(int id)
+
+
+
+        public async Task<List<Product>> GetAllProducts(string? desc, int? minPrice, int? maxPrice, int?[] categoryIds)
         {
-            return await _ApiOrmContext.Products.FindAsync(id);
 
-        }
-
-
-
-        public async Task<List<Product>> GetAllProducts()
-        {
-            return await _ApiOrmContext.Products.ToListAsync();
+            var query = _ApiOrmContext.Products.Where(Product =>
+            (desc == null ? (true) : (Product.Descriptions.Contains(desc)))
+        && ((minPrice == null) ? (true) : (Product.Price >= minPrice))
+        && ((maxPrice == null) ? (true) : (Product.Price <= maxPrice))
+        && ((categoryIds.Length == 0) ? (true) : (categoryIds.Contains(Product.CategoryId))))
+        .OrderBy(Product => Product.Price).Include(p => p.Category);
+            Console.WriteLine(query.ToQueryString());
+            List<Product> products = await query.ToListAsync();
+            return products;
+            //return await _context.Products.Include(p=>p.Category).ToListAsync();
 
         }
 
