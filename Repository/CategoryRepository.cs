@@ -17,8 +17,11 @@ namespace Repository
         }
 
 
+
+
         public async Task<List<Category>> GetAllCategories()
         {
+            Console.WriteLine("ji");
             return await _ApiOrmContext.Categories.ToListAsync();
 
         }
